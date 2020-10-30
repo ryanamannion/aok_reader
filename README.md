@@ -1,4 +1,4 @@
-#AOK_Reader: A reader for the Atticus Open Contract (AOK) Dataset Reader
+# AOK_Reader: A reader for the Atticus Open Contract (AOK) Dataset
 
 The purpose of this package is to privde tools to read the AOK corpus into 
 python to make working with the corpus easier
