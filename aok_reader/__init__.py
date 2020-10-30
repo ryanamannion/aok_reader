@@ -17,8 +17,13 @@ reader to the resulting directory. As of the beta, this includes:
     - master_clauses.csv
     and some other information about the corpus
 
-TODO: Add usage
+basic usage:
 
+>>> import aok_reader
+>>> path = 'path/to/aok/download/dir/'
+>>> reader = aok_reader.Reader(path=path)
+>>> reader.load()
+>>> # and you're off to the races
 """
 
 import csv
@@ -45,6 +50,14 @@ class Reader:
         if not path.endswith('/'):
             path = path + '/'
         self.path = path
+        self.master_csv = None
+
+    def load(self):
+        """
+        Load all
+        :return:
+        """
+        master_csv = self.load_master_csv()
 
     def load_master_csv(self):
         """
@@ -84,4 +97,13 @@ class Reader:
                     doc = dict(zip(headers, new_row))
                     entire_sheet.append(doc)
 
+        self.master_csv = entire_sheet
         return entire_sheet
+
+    def index_master(self, index_by):
+        """
+        Use basic function of ft to index master free table by index_by
+        :param index_by:
+        :return:
+        """
+        return ft.indexBy(index_by, self.master_csv)
