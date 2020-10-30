@@ -27,9 +27,7 @@ basic usage:
 """
 
 import csv
-import glob
 import ft
-import sys
 
 
 class Reader:
@@ -39,6 +37,10 @@ class Reader:
     Attributes:
         path: str, path to top-level directory of AOK as downloaded
 
+    Methods:
+        load: loads all attributes from path
+        load_master_csv: loads and returns master csv as free table
+        index_master: returns dex indexed by given key
     """
 
     def __init__(self, path):
@@ -54,19 +56,16 @@ class Reader:
 
     def load(self):
         """
-        Load all
-        :return:
+        Load all to class
         """
-        master_csv = self.load_master_csv()
+        self.master_csv = self.load_master_csv()
 
     def load_master_csv(self):
         """
         load master csv
 
-        :param path: str, path to top-level corpus directory
-        :param generator: bool, if True loads master csv as a generator, else
-            load it all at once
-        :return: TODO
+        :return: list(dict), free table of master_csv, i.e. list of dictionaries
+            with header row as keys and columns as values
         """
 
         path_to_master_csv = self.path + 'master_clauses.csv'
@@ -102,8 +101,19 @@ class Reader:
 
     def index_master(self, index_by):
         """
-        Use basic function of ft to index master free table by index_by
-        :param index_by:
-        :return:
+        Use basic function of ft to index master free table
+
+        Returns a dict of all observed values for that key, and each key points
+        to each doc from self.master_csv with the key value for the specified
+        field
+
+        example: reader.index_master('Exclusivity-Answer') would return a dict
+        with the keys True, False. Those keys point to each dict from the entire
+        master_csv that had that value (i.e. True points to all docs that have
+        true for that answer).
+
+        :param index_by: str, one of the keys from master_csv (i.e. headers from
+            master_clauses.csv)
+        :return: dex indexed by specified value
         """
         return ft.indexBy(index_by, self.master_csv)
